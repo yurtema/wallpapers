@@ -2,6 +2,7 @@ from PIL import Image
 from shutil import move
 from os import listdir
 import edit
+import config
 
 Image.MAX_IMAGE_PIXELS = None
 
@@ -9,7 +10,7 @@ Image.MAX_IMAGE_PIXELS = None
 def show(im):
     """Уменьшает разрешение переданного изображения и показывает его пользователю"""
     new_height = 675
-    new_width = int(new_height * 16 / 9)
+    new_width = int(new_height * config.ratio)
 
     _img_tmp = im.resize((new_width, new_height))
 
@@ -21,21 +22,21 @@ while True:
 
     if command[0] == 'open':
         # Открываем первое изображение из папки с фото
-        img_name = listdir('D:/обои для переработки/')[0]
-        img = Image.open(f'D:/обои для переработки/{img_name}')
+        img_name = listdir(f'{config.process_dir}/')[0]
+        img = Image.open(f'{config.process_dir}/{img_name}')
 
         # Если изображение вертикальное, делаем холст высотой с изображение и помещает изображение в центр
         # чтобы затем в коде добавились черные полосы слева и справа
         if img.height > img.width:
             canvas_height = img.height
-            canvas_width = int(canvas_height * 16 / 9)
+            canvas_width = int(canvas_height * config.ratio)
         # Если изображение горизонтальное, делает холст шириной с изображение и помещает
         # изображение в центре
         # Если изображение вылезает сверху и снизу, обрезаем
         # Если изображение не дотягивается до верхнего и нижнего края, будут добавлены черные полосы
         else:
             canvas_width = img.width
-            canvas_height = int(canvas_width / 16 / 9)
+            canvas_height = int(canvas_width / config.ratio)
 
         # Вычисляем где должны быть углы изображения на холсте чтобы изображение было в центре
         cornerx = canvas_width / 2 - img.width / 2
@@ -133,7 +134,7 @@ while True:
         if not img_txt:
             img_txt = edit.process(img, int(canvas_width), int(canvas_height), int(cornerx), int(cornery))
         # Сохраняем по нужному адресу и двигаем в папку с сырыми обоями
-        img_txt.save(f'D:/обои/{" ".join(command[1:])}.png')
-        move(f'D:/обои для переработки/{img_name}', f'D:/обои сырые/{img_name}')
+        img_txt.save(f'{config.ready_dir}/{" ".join(command[1:])}.png')
+        move(f'{config.process_dir}/{img_name}', f'{config.raw_dir}/{img_name}')
 
-        print(f'Сохранил по адресу D:/обои/{" ".join(command[1:])}.png')
+        print(f'Сохранил по адресу {config.ready_dir}/{" ".join(command[1:])}.png')
