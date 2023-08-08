@@ -19,7 +19,7 @@ def write(image, text):
     d1 = ImageDraw.Draw(img)
 
     # Вычисляем размер шрифта как процент от высоты изображения чтобы размер букв был одинакновым на всех разрешениях
-    font_size = int(img.canvas_height * config.font_size)
+    font_size = int(img.height * config.font_size)
     # Вычисляем межстрочный интервал как процент от размера шрифта по тем же причинам
     line_spacing = font_size * config.line_spacing
     # Вычисляем координаты текста как процент от размеров изображения по тем же причинам
