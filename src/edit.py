@@ -13,13 +13,13 @@ def write(image, text):
     d1 = ImageDraw.Draw(img)
 
     # Вычисляем размер шрифта как процент от высоты изображения
-    font_size = int(img.height * 0.014)
+    font_size = int(img.canvas_height * 0.014)
     line_spacing = font_size * 1.05
-    x = img.width/192
-    y = img.height/108
+    x = img.canvas_width / 192
+    y = img.canvas_height / 108
 
     # Выбираем шрифт из загруженного файла
-    font = ImageFont.truetype('calibri.ttf', font_size)
+    font = ImageFont.truetype('font.ttf', font_size)
 
     for i in text.split('\\n '):
         d1.text((x, y), i, fill=(255, 255, 255), font=font)

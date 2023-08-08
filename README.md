@@ -1,0 +1,1 @@
+desktop app for turning photos into wallpapers (formatting to needed aspect ratio, adding text in left top corner)
